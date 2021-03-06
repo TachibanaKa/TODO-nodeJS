@@ -1,22 +1,26 @@
 /* 
 添加单条数据
 */
+var res = {
+  code: 200,
+  data: null,
+};
 async function createData(db, collectionName, params) {
-  var result = "";
   await db
     .collection(collectionName)
     .insertOne(params)
     .then(
       function (data) {
-        result = `添加成功`;
+        res.data = `添加成功`;
       },
       function (err) {
-        result = `createData函数失败${err}`;
-
-        return result;
+        res.code = 500
+        res.data = `createData函数失败${err}`;
+        res.msg = "delData函数出错"
+        return res;
       }
     );
-  return result;
+  return res;
 }
 module.exports = {
   createData,

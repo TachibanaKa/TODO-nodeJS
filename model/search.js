@@ -1,11 +1,11 @@
 /* 
 查找某一个集合的所有数据或单条数据
 */
+var res = {
+  code: 200,
+  data: null,
+};
 async function searchData(db, collectionName, target) {
-  var res = {
-    code: 200,
-    data: null,
-  };
   await db
     .collection(collectionName)
     .find(target)

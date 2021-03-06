@@ -1,20 +1,21 @@
 /* 
 更新单条数据
 */  
+var res = {
+  code: 200,
+  data: null,
+};
 async function updateData(db, collectionName, id, newData) {
   await db.collection(collectionName).update({'id': id}, newData, function (err, res) {
     if (err) {
-      var result = {
+      res = {
         code: 500,
         data: "更新失败",
         msg: "updateData函数出错",
       };
-      return result;
+      return res;
     }
-    var result = {
-      code: 200,
-      data: "更新成功",
-    };
-    return result;
+    res.data = '修改成功'
+    return res;
   });
 }
