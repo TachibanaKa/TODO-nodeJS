@@ -5,8 +5,8 @@ var res = {
   code: 200,
   data: null,
 };
-async function delData(db, collectionName, id) {
-  await db.collection(collectionName).remove({'id': id}, function (err, res) {
+async function delData(db, collectionName, id, callback) {
+  await db.collection(collectionName).remove({'id': Number(id)}, function (err, data) {
     if (err) {
       res = {
         code: 500,
@@ -16,6 +16,10 @@ async function delData(db, collectionName, id) {
       return res;
     }
     res.data='删除成功'
+    callback(res)
     return res;
   });
+}
+module.exports = {
+  delData
 }

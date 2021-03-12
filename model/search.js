@@ -5,7 +5,7 @@ var res = {
   code: 200,
   data: null,
 };
-async function searchData(db, collectionName, target) {
+async function searchData(db, collectionName, target, callback) {
   await db
     .collection(collectionName)
     .find(target)
@@ -23,6 +23,7 @@ async function searchData(db, collectionName, target) {
         res.data = `searchData函数失败${err}`;
       }
     );
+  callback(res)
   return res;
 }
 

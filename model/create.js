@@ -5,7 +5,7 @@ var res = {
   code: 200,
   data: null,
 };
-async function createData(db, collectionName, params) {
+async function createData(db, collectionName, params,callback) {
   await db
     .collection(collectionName)
     .insertOne(params)
@@ -16,10 +16,11 @@ async function createData(db, collectionName, params) {
       function (err) {
         res.code = 500
         res.data = `createData函数失败${err}`;
-        res.msg = "delData函数出错"
+        res.msg = "createData函数出错"
         return res;
       }
     );
+  callback(res)
   return res;
 }
 module.exports = {

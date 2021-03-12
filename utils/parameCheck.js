@@ -26,7 +26,7 @@ function parameCheck(parameObj, typeArr) {
           ? (result = null)
           : (result = `${item.name}值类型错误`);
         break;
-      case "arr":
+      case "arr": 
         parameObj[item.name] instanceof Array
           ? (result = null)
           : (result = `${item.name}值类型错误`);
@@ -35,11 +35,19 @@ function parameCheck(parameObj, typeArr) {
         parameObj[item.name] instanceof Object
           ? (result = null)
           : (result = `${item.name}值类型错误`);
+          try
+          {
+             JSON.parse(parameObj[item.name])
+          }
+          catch(err)
+          {
+             result = err
+          }
         break;
     }
   });
   if (result !== null) {
-    console.log(result);
+    console.log(parameObj[item.name],result);
     return result;
   }
   return 200;
