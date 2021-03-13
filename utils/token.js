@@ -1,6 +1,7 @@
 //用于生成和解析token
 var jwt = require('jsonwebtoken');
-var signkey = 'mes_qdhd_mobile_xhykjyxgs';
+//var signkey = 'mes_qdhd_mobile_xhykjyxgs';HS256
+var signkey = 'HS256';
 
 function setToken (username,userid){
   const token = jwt.sign({
@@ -10,7 +11,10 @@ function setToken (username,userid){
   return token
 }
 function verToken(token){
-  var info = jwt.verify(token.split(' ')[1],signkey);
+  var info = ''
+  jwt.verify(token.split(' ')[1],signkey,(data)=>{
+    info = data  // token正确时data为null
+  });
   return info
 }
 module.exports = {

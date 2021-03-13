@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 let todo = require("../controller/todo/index.js");
 let paramModule = require("../utils/parameCheck");
+let token = require('../utils/token')
 /* GET users listing. */
 let result = {
   code: 200,
@@ -9,6 +10,13 @@ let result = {
 };
 /* 查询某用户所有todo */
 router.get("/getTodo", function (req, response, next) {
+  //验证token
+  let myToken = token.verToken(req.headers.authorization)
+  if(myToken != null){
+    result.code = 301
+    result.data = 'token失效'
+    response.send(result)
+  }
   //校验参数
   let paramResult = paramModule.parameCheck(req.query, [
   ]);
@@ -17,7 +25,7 @@ router.get("/getTodo", function (req, response, next) {
       code: 301,
       data: paramResult,
     };
-    response.send(result)
+    response.send(result) 
     return
   }
   todo.searchTodo(req.query, response)
@@ -25,6 +33,13 @@ router.get("/getTodo", function (req, response, next) {
 
 /* 新增todo */
 router.get("/createTodo", function (req, response, next) {
+  //验证token
+  let myToken = token.verToken(req.headers.authorization)
+  if(myToken != null){
+    result.code = 301
+    result.data = 'token失效'
+    response.send(result)
+  }
   let allParams = ['id','userId','username','title','content','priority','addTime','updateTime','deadline','planTime','state']
   //校验参数
   let paramResult = paramModule.parameCheck(req.query, [
@@ -50,6 +65,13 @@ router.get("/createTodo", function (req, response, next) {
 });
 /* 删除todo */
 router.get("/delTodo", function (req, response, next) {
+  //验证token
+  let myToken = token.verToken(req.headers.authorization)
+  if(myToken != null){
+    result.code = 301
+    result.data = 'token失效'
+    response.send(result)
+  }
   //校验参数
   let paramResult = paramModule.parameCheck(req.query, [
     { name: "id", type: "str" },
@@ -67,6 +89,13 @@ router.get("/delTodo", function (req, response, next) {
 
 /* 修改todo */
 router.get("/updateTodo", function (req, response, next) {
+  //验证token
+  let myToken = token.verToken(req.headers.authorization)
+  if(myToken != null){
+    result.code = 301
+    result.data = 'token失效'
+    response.send(result)
+  }
   //校验参数
   let paramResult = paramModule.parameCheck(req.query, [
     { name: "id", type: "str" },
@@ -82,4 +111,6 @@ router.get("/updateTodo", function (req, response, next) {
   }
   todo.updateTodo(req.query, response)
 });
+
+
 module.exports = router;

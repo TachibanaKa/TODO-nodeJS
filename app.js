@@ -25,30 +25,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/user', usersRouter);
 app.use('/todo', todoRouter);
-
+app.get('',()=>{
+  console.log('test')
+})
 // 解析token获取用户信息
 app.use(function(req, res, next) {
   var token = req.headers['authorization'];
   if(token == undefined){
     return next();
   }else{
-    vertoken.verToken(token).then((data)=> {
-      req.data = data;
-      return next();
-    }).catch((error)=>{
-      return next();
-    })
+    req.data = vertoken.verToken(token)
+    return next()
   }
 });
 //验证token是否过期并规定哪些路由不用验证
 app.use(expressJwt({
-  secret: 'mes_qdhd_mobile_xhykjyxgs',
-  algorithms:['HS256']//加密算法
+  secret: 'HS256'/* 'mes_qdhd_mobile_xhykjyxgs' */,
+  algorithms:['HS256'],//加密算法
+  requestProperty: 'user'
 }).unless({
   path: ['/user/login']//除了这个地址，其他的URL都需要验证
 }));
 //当token失效返回提示信息
 app.use(function(err, req, res, next) {
+  console.log(33)
   if (err.status == 401) {
     return res.status(401).send({code:301,data:'token失效'});
   }
