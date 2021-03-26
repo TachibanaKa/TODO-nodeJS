@@ -34,8 +34,11 @@ function login(req, response){
     if (res.data.length!==0 && res.code==200) {
       let userToken = token.setToken(res.data[0].account,res.data[0].id)
       result.code = 200;
-      result.data = "登录成功";
-      result.token = userToken
+      result.data = {
+        token: userToken,
+        id: res.data[0].id,
+        account: res.data[0].account
+      };
       response.send(result);
       return;
     }

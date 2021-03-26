@@ -46,7 +46,7 @@ router.get("/createTodo", function (req, response, next) {
     { name: "userId", type: "str" },
     { name: "priority", type: "str" },
     { name: "title", type: "str" },
-  ]);
+  ]); 
   if (paramResult !== 200) {
     result = {
       code: 301,
@@ -99,7 +99,7 @@ router.get("/updateTodo", function (req, response, next) {
   //校验参数
   let paramResult = paramModule.parameCheck(req.query, [
     { name: "id", type: "str" },
-    { name: "newData", type: "str"}
+    { name: "newData", type: "obj"}
   ]);
   if (paramResult !== 200) {
     result = {
